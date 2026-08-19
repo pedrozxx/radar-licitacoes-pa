@@ -1,0 +1,555 @@
+@import './tokens.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100dvh;
+  background: var(--papel);
+  color: var(--tinta);
+  font-family: var(--fonte);
+  font-size: 1rem;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Todo número é mono e tabular: densidade acima de 7 exige, e sem
+   tabular-nums a coluna de dinheiro dança a cada linha. */
+.num {
+  font-family: var(--fonte-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+a {
+  color: var(--acento);
+  text-underline-offset: 2px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 2px;
+  border-radius: var(--raio);
+}
+
+.pular-para-conteudo {
+  position: absolute;
+  left: var(--e4);
+  top: -100px;
+  z-index: 20;
+  padding: var(--e2) var(--e4);
+  background: var(--acento);
+  color: var(--superficie);
+  border-radius: var(--raio);
+  transition: top var(--transicao);
+}
+.pular-para-conteudo:focus {
+  top: var(--e4);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.envolucro {
+  width: 100%;
+  max-width: var(--largura-maxima);
+  margin-inline: auto;
+  padding-inline: var(--e5);
+}
+
+/* ---------------------------------------------------------------- cabeçalho */
+
+.cabecalho {
+  border-bottom: 1px solid var(--fio);
+  background: var(--superficie);
+  padding-block: var(--e5);
+}
+.cabecalho-linha {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e4);
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.cabecalho h1 {
+  font-size: clamp(1.35rem, 1.1rem + 1.1vw, 1.9rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+.cabecalho p {
+  margin-top: var(--e2);
+  max-width: 62ch;
+  color: var(--tinta-fraca);
+  font-size: 0.95rem;
+}
+.procedencia {
+  margin-top: var(--e3);
+  font-size: 0.8rem;
+  color: var(--tinta-fraca);
+}
+
+/* ---------------------------------------------------------------- botões */
+
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--e2);
+  min-height: 44px;
+  padding: var(--e2) var(--e4);
+  border: 1px solid var(--fio);
+  border-radius: var(--raio);
+  background: var(--superficie);
+  color: var(--tinta);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background var(--transicao), border-color var(--transicao);
+}
+.botao:hover {
+  border-color: var(--acento);
+}
+.botao:active {
+  transform: translateY(1px);
+}
+.botao--primario {
+  background: var(--acento);
+  border-color: var(--acento);
+  color: #fff;
+}
+.botao--fantasma {
+  border-color: transparent;
+  background: transparent;
+  min-height: 32px;
+  padding: var(--e1) var(--e2);
+  font-size: 0.82rem;
+  color: var(--tinta-fraca);
+}
+.botao--fantasma:hover {
+  color: var(--tinta);
+}
+
+/* ---------------------------------------------------------------- KPIs */
+
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+  gap: 1px;
+  background: var(--fio);
+  border: 1px solid var(--fio);
+  border-radius: var(--raio);
+  overflow: hidden;
+  margin-block: var(--e5);
+}
+.kpi {
+  background: var(--superficie);
+  padding: var(--e4);
+}
+.kpi dt {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--tinta-fraca);
+  font-weight: 500;
+}
+.kpi dd {
+  margin-top: var(--e1);
+  font-size: clamp(1.4rem, 1.1rem + 1vw, 1.75rem);
+  font-weight: 600;
+  line-height: 1.15;
+}
+.kpi-nota {
+  display: block;
+  margin-top: var(--e1);
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: var(--tinta-fraca);
+  font-family: var(--fonte);
+}
+.kpi--alerta dd {
+  color: var(--ambar);
+}
+
+/* ---------------------------------------------------------------- ranking */
+
+.ranking {
+  margin-block: var(--e6);
+}
+.ranking h2,
+.resultado h2 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.ranking-legenda {
+  color: var(--tinta-fraca);
+  font-size: 0.85rem;
+  margin-top: var(--e1);
+}
+.ranking-lista {
+  margin-top: var(--e4);
+  display: grid;
+  gap: var(--e3);
+}
+.ranking-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--e2) var(--e4);
+  align-items: baseline;
+}
+.ranking-nome {
+  font-size: 0.88rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ranking-valor {
+  font-size: 0.88rem;
+  color: var(--tinta-fraca);
+}
+.ranking-barra {
+  grid-column: 1 / -1;
+  height: 8px;
+  background: var(--fio);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.ranking-preenchimento {
+  height: 100%;
+  background: var(--acento);
+  border-radius: 4px;
+  transition: transform var(--transicao);
+  transform-origin: left;
+}
+
+/* ---------------------------------------------------------------- filtros */
+
+.filtros {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr));
+  gap: var(--e4);
+  padding: var(--e4);
+  border: 1px solid var(--fio);
+  border-radius: var(--raio);
+  background: var(--superficie);
+}
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e1);
+  min-width: 0;
+}
+.campo label {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--tinta-fraca);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.campo input,
+.campo select {
+  min-height: 44px;
+  padding: var(--e2) var(--e3);
+  border: 1px solid var(--fio);
+  border-radius: var(--raio);
+  background: var(--papel);
+  color: var(--tinta);
+  font: inherit;
+  font-size: 0.92rem;
+  width: 100%;
+}
+.campo input:hover,
+.campo select:hover {
+  border-color: var(--tinta-fraca);
+}
+
+.marcadores {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e2);
+  align-items: center;
+  margin-top: var(--e4);
+  min-height: 32px;
+}
+.marcador {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--e2);
+  padding: var(--e1) var(--e3);
+  border: 1px solid var(--fio);
+  border-radius: 999px;
+  background: var(--acento-suave);
+  color: var(--tinta);
+  font-size: 0.82rem;
+}
+.marcador button {
+  border: 0;
+  background: none;
+  color: var(--tinta-fraca);
+  cursor: pointer;
+  font: inherit;
+  line-height: 1;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+.marcador button:hover {
+  color: var(--tinta);
+}
+
+/* ---------------------------------------------------------------- tabela */
+
+.resultado {
+  margin-block: var(--e6) var(--e7);
+}
+.resultado-topo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e3);
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: var(--e4);
+}
+.contagem {
+  color: var(--tinta-fraca);
+  font-size: 0.88rem;
+}
+
+.tabela-envolucro {
+  border: 1px solid var(--fio);
+  border-radius: var(--raio);
+  background: var(--superficie);
+  overflow: hidden;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+caption {
+  text-align: left;
+  padding: var(--e3) var(--e4);
+  color: var(--tinta-fraca);
+  font-size: 0.85rem;
+  border-bottom: 1px solid var(--fio);
+}
+th,
+td {
+  text-align: left;
+  padding: var(--e3) var(--e4);
+  border-bottom: 1px solid var(--fio);
+  vertical-align: top;
+  font-size: 0.9rem;
+}
+thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--superficie);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--tinta-fraca);
+  font-weight: 500;
+  white-space: nowrap;
+}
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+tbody tr:hover {
+  background: var(--acento-suave);
+}
+.col-valor {
+  text-align: right;
+  white-space: nowrap;
+}
+.objeto {
+  font-weight: 500;
+  display: block;
+  max-width: 52ch;
+}
+/* Sublinhado em objeto de licitação, que tem cinco linhas, vira uma mancha.
+   O link se anuncia pela cor e pelo sublinhado no hover e no foco. */
+a.objeto {
+  text-decoration: none;
+  color: var(--tinta);
+}
+a.objeto:hover,
+a.objeto:focus-visible {
+  text-decoration: underline;
+  color: var(--acento);
+}
+.meta {
+  display: block;
+  margin-top: var(--e1);
+  color: var(--tinta-fraca);
+  font-size: 0.82rem;
+}
+.linha--encerrada {
+  color: var(--tinta-fraca);
+}
+
+/* Estado do prazo: cor SEMPRE acompanhada de texto. Sozinha, a cor deixaria
+   de fora quem não a distingue — e o âmbar é o único tom de estado que existe. */
+.prazo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--e2);
+  white-space: nowrap;
+  font-size: 0.85rem;
+}
+.prazo--urgente {
+  color: var(--ambar);
+  font-weight: 500;
+}
+.prazo-marca {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: none;
+}
+
+/* ---------------------------------------------------------------- estados */
+
+.esqueleto-linha {
+  height: 18px;
+  border-radius: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--fio) 0%,
+    var(--papel) 50%,
+    var(--fio) 100%
+  );
+  background-size: 200% 100%;
+  animation: brilho 1.4s ease-in-out infinite;
+}
+@keyframes brilho {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+.aviso {
+  display: grid;
+  gap: var(--e2);
+  padding: var(--e5);
+  border: 1px solid var(--fio);
+  border-radius: var(--raio);
+  background: var(--superficie);
+}
+.aviso h3 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+.aviso p {
+  color: var(--tinta-fraca);
+  font-size: 0.92rem;
+  max-width: 60ch;
+}
+.aviso--atencao {
+  border-color: var(--ambar);
+  background: var(--ambar-suave);
+}
+.aviso--atencao h3 {
+  color: var(--ambar);
+}
+
+.rodape {
+  border-top: 1px solid var(--fio);
+  padding-block: var(--e5);
+  color: var(--tinta-fraca);
+  font-size: 0.85rem;
+}
+.rodape p + p {
+  margin-top: var(--e2);
+}
+
+/* ---------------------------------------------------------------- mobile */
+
+/* Abaixo de 768px a tabela vira lista. Tabela larga com rolagem horizontal
+   é falha crítica em telefone: some conteúdo sem avisar. */
+@media (max-width: 767px) {
+  .envolucro {
+    padding-inline: var(--e4);
+  }
+  .tabela-envolucro {
+    border: 0;
+    background: none;
+  }
+  table,
+  tbody,
+  tr,
+  td {
+    display: block;
+    width: 100%;
+  }
+  thead,
+  caption {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+  }
+  tbody tr {
+    border: 1px solid var(--fio);
+    border-radius: var(--raio);
+    background: var(--superficie);
+    padding: var(--e4);
+    margin-bottom: var(--e3);
+  }
+  tbody tr:hover {
+    background: var(--superficie);
+  }
+  td {
+    border: 0;
+    padding: 0;
+  }
+  td + td {
+    margin-top: var(--e2);
+  }
+  .col-valor {
+    text-align: left;
+  }
+  /* O rótulo da coluna volta como prefixo, já que o cabeçalho sumiu. */
+  td[data-rotulo]::before {
+    content: attr(data-rotulo);
+    display: block;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--tinta-fraca);
+  }
+  .objeto {
+    max-width: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

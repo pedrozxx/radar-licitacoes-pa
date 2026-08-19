@@ -1,0 +1,71 @@
+/* Tokens do design system. Ver DESIGN.md.
+   Nenhum componente escreve hex direto — tudo sai daqui. */
+
+:root {
+  /* Claro */
+  --papel: #fbfaf8;
+  --superficie: #ffffff;
+  --tinta: #17181a;
+  --tinta-fraca: #6b6e76;
+  --fio: #e4e2dd;
+  --acento: #17694c;
+  --acento-suave: #e8f2ed;
+
+  /* Estado de prazo. UMA cor só, de propósito: âmbar marca o que é urgente.
+     "Encerrado" e "sem prazo" ficam neutros e apagados — se tudo é colorido,
+     nada é urgente. Além disso, o validador mediu ΔE 12,4 entre o âmbar e o
+     terra que existia aqui antes: abaixo de 15, ou seja, difíceis de separar
+     mesmo com visão de cor completa. Menos cor resolveu os dois problemas.
+     #9e6500 e não #a66a00: o anterior dava 4,48:1 e reprovava em texto. */
+  --ambar: #9e6500;
+  --ambar-suave: #fdf3e2;
+
+  /* Tipografia */
+  --fonte: 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fonte-mono: 'Geist Mono', ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
+
+  /* Espaço — escala de 4px */
+  --e1: 0.25rem;
+  --e2: 0.5rem;
+  --e3: 0.75rem;
+  --e4: 1rem;
+  --e5: 1.5rem;
+  --e6: 2rem;
+  --e7: 3rem;
+
+  --raio: 6px;
+  --largura-maxima: 1400px;
+  --transicao: 140ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+:root:not([data-tema='claro']) {
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema='claro']) {
+    --papel: #121316;
+    --superficie: #191b1f;
+    --tinta: #ededea;
+    --tinta-fraca: #9a9da5;
+    --fio: #2a2d33;
+    --acento: #37b07c;
+    --acento-suave: #16261f;
+    --ambar: #d99a2b;
+    --ambar-suave: #2a2113;
+    color-scheme: dark;
+  }
+}
+
+:root[data-tema='escuro'] {
+  --papel: #121316;
+  --superficie: #191b1f;
+  --tinta: #ededea;
+  --tinta-fraca: #9a9da5;
+  --fio: #2a2d33;
+  --acento: #37b07c;
+  --acento-suave: #16261f;
+  --ambar: #d99a2b;
+  --ambar-suave: #2a2113;
+  color-scheme: dark;
+}
