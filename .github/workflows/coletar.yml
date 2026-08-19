@@ -1,0 +1,55 @@
+name: Coletar dados do PNCP
+
+# A coleta roda aqui, e não quando alguém abre o site, porque o PNCP é lento e
+# limita requisições. Um job agendado pode esperar e pedir devagar; um usuário
+# olhando para a tela, não.
+on:
+  schedule:
+    - cron: '0 9 * * *' # 06:00 em Belém (UTC-3)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: coleta
+  cancel-in-progress: false
+
+jobs:
+  coletar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Coletar
+        id: coleta
+        # O script sai com código 1 quando não trouxe nenhum registro, e nesse
+        # caso o arquivo publicado é preservado — um dia de instabilidade do
+        # PNCP não pode apagar os dados do site.
+        run: python scripts/coletar.py --dias 30 --uf PA
+        continue-on-error: true
+
+      - name: Publicar se houve mudança
+        if: steps.coleta.outcome == 'success'
+        run: |
+          if git diff --quiet -- web/public/dados/; then
+            echo "Sem mudança nos dados; nada a commitar."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add web/public/dados/
+          git commit -m "dados: coleta automática do PNCP ($(date -u +%Y-%m-%d))"
+          git push
+
+      - name: Avisar quando a coleta falhou
+        if: steps.coleta.outcome != 'success'
+        run: |
+          echo "::warning::A coleta não trouxe registros. Os dados publicados foram preservados."
