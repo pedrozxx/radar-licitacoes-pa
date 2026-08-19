@@ -6,8 +6,10 @@ Consulte as licitações do Pará por município, prazo, valor e objeto. Os dado
 **PNCP** (Portal Nacional de Contratações Públicas), a fonte oficial, e são recolhidos
 por um job diário.
 
-🔗 **[Abrir o site](https://radar-licitacoes-pa.vercel.app)** · 
+🔗 **[Abrir o site](https://pedrozxx.github.io/radar-licitacoes-pa/)**
+
 [![CI](https://github.com/pedrozxx/radar-licitacoes-pa/actions/workflows/ci.yml/badge.svg)](https://github.com/pedrozxx/radar-licitacoes-pa/actions/workflows/ci.yml)
+[![Pages](https://github.com/pedrozxx/radar-licitacoes-pa/actions/workflows/pages.yml/badge.svg)](https://github.com/pedrozxx/radar-licitacoes-pa/actions/workflows/pages.yml)
 
 ---
 
@@ -66,7 +68,7 @@ todo estado de prazo traz o texto por extenso. Ver [`DESIGN.md`](DESIGN.md).
 **Back** Python 3.12 · FastAPI · httpx  
 **Testes** Vitest (39) · pytest (39)  
 **CI** GitHub Actions — tipos, lint, testes e build a cada push  
-**Deploy** Vercel (site estático + função serverless)
+**Deploy** GitHub Pages (site estático, publicado por Action a cada push)
 
 ## Rodando localmente
 

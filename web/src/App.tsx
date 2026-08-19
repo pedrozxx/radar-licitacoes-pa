@@ -9,7 +9,10 @@ import { filtrar, municipiosDisponiveis, resumirLista } from './lib/filtrar'
 import { formatarData, formatarDataHora } from './lib/formatar'
 import { FILTROS_INICIAIS, type Filtros as TipoFiltros, type Snapshot } from './lib/types'
 
-const CAMINHO_DADOS = 'dados/licitacoes-pa.json'
+// Montado a partir de BASE_URL, e não relativo à URL atual: um visitante que
+// chega em /radar-licitacoes-pa (sem barra final) faria o caminho relativo
+// resolver para /dados/... e receber 404.
+const CAMINHO_DADOS = `${import.meta.env.BASE_URL}dados/licitacoes-pa.json`
 
 const NOMES_MODALIDADE: Record<number, string> = {
   1: 'leilão eletrônico',
