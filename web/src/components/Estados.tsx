@@ -86,16 +86,23 @@ export function Erro({ mensagem, aoTentar }: { mensagem: string; aoTentar: () =>
  * a lista está curta e o usuário fica sabendo por quê, em vez de ler um total
  * menor como se fosse o número real.
  */
-export function AvisoIncompleto({ modalidades }: { modalidades: string[] }) {
-  if (modalidades.length === 0) return null
+export function AvisoIncompleto({ modalidades, truncado = false }: {
+  modalidades: string[]
+  truncado?: boolean
+}) {
+  if (modalidades.length === 0 && !truncado) return null
   return (
     <div className="aviso aviso--atencao" role="status">
       <h3>Esta coleta está incompleta</h3>
-      <p>
+      {modalidades.length > 0 && <p>
         O PNCP não respondeu para {modalidades.length === 1 ? 'a modalidade' : 'as modalidades'}{' '}
         <strong>{modalidades.join(', ')}</strong> na última coleta. As licitações
         dessas modalidades não aparecem abaixo, e os totais não as incluem.
-      </p>
+      </p>}
+      {truncado && <p>
+        Parte dos registros não pôde ser coletada. Os totais representam apenas
+        os dados disponíveis; consulte o PNCP para conferir a lista completa.
+      </p>}
     </div>
   )
 }

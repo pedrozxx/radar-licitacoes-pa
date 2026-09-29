@@ -138,9 +138,9 @@ export default function App() {
           <>
             <Kpis resumo={resumo} />
 
-            {modalidadesFalhas.length > 0 && (
+            {(dados.truncado || modalidadesFalhas.length > 0) && (
               <div style={{ marginBottom: 'var(--e5)' }}>
-                <AvisoIncompleto modalidades={modalidadesFalhas} />
+                <AvisoIncompleto modalidades={modalidadesFalhas} truncado={dados.truncado ?? false} />
               </div>
             )}
 
