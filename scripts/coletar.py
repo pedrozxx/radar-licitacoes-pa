@@ -59,6 +59,7 @@ async def coletar(dias: int, uf: str) -> dict:
     crus: list[dict] = []
     ok: list[int] = []
     falhas: list[int] = []
+    truncado = False
 
     for indice, modalidade in enumerate(MODALIDADES_COLETADAS):
         nome = MODALIDADES.get(modalidade, str(modalidade))
@@ -73,6 +74,7 @@ async def coletar(dias: int, uf: str) -> dict:
                 max_paginas=MAX_PAGINAS,
             )
             crus.extend(resultado.itens)
+            truncado = truncado or resultado.truncado
             ok.append(modalidade)
             log.info("  %d registros%s", len(resultado.itens),
                      " (truncado)" if resultado.truncado else "")
@@ -97,6 +99,7 @@ async def coletar(dias: int, uf: str) -> dict:
         "periodo": {"inicio": inicio.isoformat(), "fim": hoje.isoformat()},
         "modalidades_coletadas": ok,
         "modalidades_falhas": falhas,
+        "truncado": truncado or bool(falhas),
         "resumo": resumir(itens),
         "itens": [i.to_dict() for i in itens],
     }
@@ -125,7 +128,7 @@ def main() -> int:
     resumo = dados["resumo"]
     log.info(
         "gravado %s: %d licitações, %d com valor, %d urgentes",
-        argumentos.saida.relative_to(RAIZ),
+        argumentos.saida,
         resumo["total"],
         resumo["com_valor"],
         resumo["urgentes"],

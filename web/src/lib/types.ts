@@ -37,6 +37,8 @@ export interface Snapshot {
   periodo: { inicio: string; fim: string }
   modalidades_coletadas: number[]
   modalidades_falhas: number[]
+  /** Opcional para manter compatibilidade com snapshots antigos. */
+  truncado?: boolean
   resumo: Resumo
   itens: Licitacao[]
 }
