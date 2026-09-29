@@ -13,7 +13,8 @@ web/dist/
 
 # Ambiente
 .env
-.env.local
+.env.*
+!.env.example
 
 # Editor / SO
 .vscode/
